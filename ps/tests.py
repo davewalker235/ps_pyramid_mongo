@@ -1,6 +1,7 @@
 import unittest
-
 from pyramid import testing
+
+# TODO: Really gotta step up your game on these tests, the selenium stuff won't cut it
 
 class AppTests(unittest.TestCase):
   def test_main(self):

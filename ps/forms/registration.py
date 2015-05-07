@@ -2,6 +2,10 @@ import re
 import pystache
 
 class Form:
+  """ This is a basic form class, intended for scaffolding out forms and inputs with reasonable
+      validation and error message baked in.  Other form libraries didn't play well with mustache.
+      Should separate these into base classes and extend new forms from there.
+  """
   def __init__(self, req):
     self.req = req
     self.validated = False

@@ -6,8 +6,8 @@ class Ajax:
     self.info = info
 
   def __call__(self, value, system):
-    # Trigger some action if the request 403s or does not return, separate out flash messages
-    # for display
+    # TODO: Trigger some action if the request 403s or does not return, separate out flash messages
+    # for display, prompt for login if 403
     request = system.get('request')
     request.response.content_type = 'application/json'
     value['flash'] =  ''.join(request.session.pop_flash())
@@ -15,8 +15,8 @@ class Ajax:
 
 
 class Mustache:
-  # Save templates in cache as requested in the live version
-  # Use re.sub("\n\s*", "", template) to compress whitespace, you'll need to handle partials
+  # TODO: Save templates in cache as requested in the live version (in memory?)
+  # Use re.sub("\n\s*", "", template) to compress template whitespace, you'll need to handle partials
   # with some sort of custom loader for these {{> partial}}
 
   _cache = {}

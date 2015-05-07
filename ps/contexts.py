@@ -8,6 +8,11 @@ from pyramid.security import (
   )
 
 class Root:
+  """ Root context
+      TODO:
+        - Should add breadcrumbs as the URI traverses
+        - Add objects to context if they are exclusive to that context, reference accordingly
+  """
   __name__ = ''
   __parent__ = None
   __acl__ = [(Allow, Everyone, 'view'), DENY_ALL]

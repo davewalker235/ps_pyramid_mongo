@@ -9,7 +9,7 @@ from pyramid.config import Configurator
 
 def main(global_config, **settings):
   """ This function returns a Pyramid WSGI application.
-      Should also launch compilers or Gulp:
+      Should also launch spawn process for compilers or Gulp:
         stylus -w -m -u nib -u jeet -o ../static --include-css
         coffee -w
   """
@@ -23,8 +23,11 @@ def main(global_config, **settings):
       return None
 
   def user(req):
-    # authenticated_userid only returns if the roles callback is != None, unauthenticated_userid
-    # is just a pointer to the raw session user id
+    """ This returns a user object from Mongo, a SON Manipulator automatically coverts items from
+        the users collection into User() objects.  The lookup is done with req.unauthenticated_userid,
+        because authenticated_userid relies on the roles() callback, which creates a loop because
+        the roles() function uses req.user.  Unauthenticated_userid is just a pointer to the raw _id
+    """
     if req.unauthenticated_userid:
       user = req.db.user.find_one({'_id': ObjectId(req.unauthenticated_userid)})
       user.req = req
@@ -43,21 +46,24 @@ def main(global_config, **settings):
   config.scan()
 
   # Authorization and Security Measures
+  # Should change the authentication key for production
   config.set_authorization_policy(ACLAuthorizationPolicy())
   config.set_authentication_policy(AuthTktAuthenticationPolicy('Flyj7PsggCNq4UF5xRTLbwltZFnV0L6',
     hashalg='sha512', callback=roles, reissue_time=360, timeout=1800))
 
-  # Add database connections
+  # Add database connections and SON Manipulator for automatic conversions
+  # Just using basic IP restrictions for mongo security, let pymongo handle connection performance
   mongo = pymongo.Connection().ps
   mongo.add_son_manipulator(models.Transform())
   mongofs = gridfs.GridFS(mongo)
 
+  # Add database and helper methods to request object
   config.add_request_method(lambda req: mongo, 'db', reify=True)
   config.add_request_method(lambda req: mongofs, 'fs', reify=True)
   config.add_request_method(user, 'user', reify=True)
   config.add_request_method(flash, 'flash')
 
-  # Add renderers
+  # Add renderers, ajax renderer is standardized to send flash messages and errors
   config.add_renderer('.mustache', renderers.Mustache)
   config.add_renderer('ajax', renderers.Ajax)
 
