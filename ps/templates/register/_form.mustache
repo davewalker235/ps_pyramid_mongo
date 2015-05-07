@@ -1,0 +1,12 @@
+{{#form.errors}}
+  <div>
+    {{{.}}}
+  </div>
+{{/form.errors}}
+<form name='register_user' method="POST" class="{{form.classes}}">
+  {{{form.name}}}
+  {{{form.email}}}
+  {{{form.password}}}
+  {{{form.confirm_password}}}
+  <button>Sign Up!</button>
+</form>

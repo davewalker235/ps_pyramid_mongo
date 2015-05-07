@@ -1,0 +1,104 @@
+@import jeet
+@import nib
+@import colors
+@import '../../node_modules/normalize.css/normalize.css'
+
+*
+  box-sizing border-box
+
+body
+  font-family Roboto, Helvetica, Arial, san-serif
+  font-weight 300
+  max-width 30em
+  margin 0 auto
+  line-height 1.5em
+  color color_font
+
+a
+  text-decoration none
+  border-bottom solid 1px color_link
+
+h1
+  font-family 'Roboto Slab'
+  font-weight 300
+
+.msg
+  border-radius 3px
+  background lighten(color_success, 70%)
+  border solid 1px color_success
+  padding .5rem 1rem
+  margin-bottom 5px
+
+  &.error
+    background lighten(color_error, 50%)
+    border-color color_error
+    color black
+
+    a
+      color color_font
+      border-bottom solid 1px color_error
+
+
+button
+  padding .5em 1em
+  border-radius 2px
+  border solid 1px lighten(color_font, 70%)
+
+input
+  border-radius 3px
+  border solid 1px lighten(color_font, 80%)
+  display block
+  padding .5em
+  width 100%
+  line-height 1.5em
+
+form
+  margin 2em 0
+
+  > div div:first-child
+    display table
+    width 100%
+    margin-bottom .5em
+
+  label
+  input
+    display table-cell
+
+  label
+    width 2em
+    white-space nowrap
+    padding-right 2em
+    color lighten(color_font, 15%)
+
+    input
+      padding-left 2em
+
+  > div.error
+    label
+      color red
+
+    input
+      border-color red
+
+  .error-list
+    margin-bottom .5em
+    border-radius 3px
+
+    .msg
+      margin-bottom 1px
+      border none
+      // border-bottom solid 1px lighten(red, 90%)
+
+    .msg:last-child
+      border-bottom none
+
+  button
+    margin 2em 0
+    float right
+
+.flash
+  > div:first-child
+    margin-top 1em
+
+  > div:last-child
+    margin-bottom 1em
